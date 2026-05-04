@@ -35,5 +35,27 @@ namespace CP2_DotNet.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Procura uma avaliação pelo ID",
+            Description = "Método para buscar uma avaliação, e suas informações, pelo ID"
+        )]
+        public IActionResult GetAvaliacaoById(int id)
+        {
+            try
+            {
+                var avaliacao = _context.Avaliacao.FirstOrDefault(x => x.Id == id);
+                if (avaliacao is null)
+                {
+                    return NotFound();
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

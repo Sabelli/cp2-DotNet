@@ -18,17 +18,38 @@ namespace CP2_DotNet.API.Controllers
 
         [HttpGet]
         [SwaggerOperation(
-            Summary = "Lista todas os filmes",
+            Summary = "Lista todos os filmes",
             Description = "Método responsável por retornar todos os filmes cadastrados"
         )]
         public IActionResult GetAllFilme()
         {
             try
             {
-                var avaliacoes = _context.Filme.ToList();
-                if (!avaliacoes.Any())
+                var filmes = _context.Filme.ToList();
+                if (!filmes.Any())
                 {
                     return NoContent();
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("{id}")]
+        [SwaggerOperation(
+            Summary = "Procura um filme pelo ID",
+            Description = "Método para buscar um filme, e suas informações, pelo ID"
+        )]
+        public IActionResult GetFilmeById(int id)
+        {
+            try
+            {
+                var filme = _context.Filme.FirstOrDefault(x => x.Id == id);
+                if (filme is null)
+                {
+                    return NotFound();
                 }
                 return Ok();
             }
