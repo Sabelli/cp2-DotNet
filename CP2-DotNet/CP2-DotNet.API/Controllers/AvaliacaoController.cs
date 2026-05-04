@@ -1,4 +1,5 @@
 ﻿using CP2_DotNet.API.Data;
+using CP2_DotNet.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -28,7 +29,7 @@ namespace CP2_DotNet.API.Controllers
                 {
                     return NoContent();
                 }
-                return Ok();
+                return Ok(avaliacoes);
             }
             catch (Exception ex)
             {
@@ -50,7 +51,72 @@ namespace CP2_DotNet.API.Controllers
                 {
                     return NotFound();
                 }
-                return Ok();
+                return Ok(avaliacao);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [SwaggerOperation(
+            Summary = "Adiciona uma nova avaliação no Banco"
+        )]
+        public IActionResult AddAvaliacao(AvaliacaoEntity model)
+        {
+            try
+            {
+                _context.Avaliacao.Add(model);
+                _context.SaveChanges();
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("{id}")]
+        [SwaggerOperation(
+            Summary = "Edita uma avaliação existente no Banco"
+        )]
+        public IActionResult EditAvaliacao(int id, AvaliacaoEntity model)
+        {
+            try
+            {
+                var avaliacao = _context.Avaliacao.FirstOrDefault(x => x.Id == id);
+                if (avaliacao is null)
+                {
+                    return NotFound();
+                }
+                avaliacao.Autor = model.Autor;
+                avaliacao.Nota = model.Nota;
+                avaliacao.DataAvaliacao = model.DataAvaliacao;
+                avaliacao.FilmeId = model.FilmeId;
+
+                _context.Avaliacao.Update(avaliacao);
+                _context.SaveChanges();
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAvaliacao(int id)
+        {
+            try
+            {
+                var avaliacao = _context.Avaliacao.FirstOrDefault(x => x.Id == id);
+                if (avaliacao is null)
+                {
+                    return NotFound();
+                }
+
+                _context.Avaliacao.Remove(avaliacao);
+                _context.SaveChanges();
+                return Ok(avaliacao);
             }
             catch (Exception ex)
             {

@@ -25,5 +25,12 @@ namespace CP2_DotNet.API.Models
 
         [Column("a_dataavaliacao")]
         public DateTime DataAvaliacao { get; set; } = DateTime.UtcNow;
+
+        [Required(ErrorMessage = "O ID do filme é obrigatório.")]
+        [Column("f_id")]
+        public int FilmeId { get; set; }
+
+        [ForeignKey("FilmeId")]
+        public FilmeEntity? Filme { get; set; }
     }
 }

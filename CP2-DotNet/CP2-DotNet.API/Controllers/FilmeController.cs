@@ -1,4 +1,5 @@
 ﻿using CP2_DotNet.API.Data;
+using CP2_DotNet.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -30,7 +31,7 @@ namespace CP2_DotNet.API.Controllers
                 {
                     return NoContent();
                 }
-                return Ok();
+                return Ok(filmes);
             }
             catch (Exception ex)
             {
@@ -51,7 +52,74 @@ namespace CP2_DotNet.API.Controllers
                 {
                     return NotFound();
                 }
-                return Ok();
+                return Ok(filme);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [SwaggerOperation(
+            Summary = "Adiciona um novo filme no Banco"
+        )]
+        public IActionResult AddFilme(FilmeEntity model)
+        {
+            try
+            {
+                _context.Filme.Add(model);
+                _context.SaveChanges();
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("{id}")]
+        [SwaggerOperation(
+            Summary = "Edita um filme existente no Banco"
+        )]
+        public IActionResult EditFilme(int id, FilmeEntity model)
+        {
+            try
+            {
+                var filme = _context.Filme.FirstOrDefault(x => x.Id == id);
+                if (filme is null)
+                {
+                    return NotFound();
+                }
+               
+                filme.Titulo = model.Titulo;
+                filme.Genero = model.Genero;
+                filme.AnoLancamento = model.AnoLancamento;
+                filme.DuracaoMin = model.DuracaoMin;
+
+                _context.Filme.Update(filme);
+                _context.SaveChanges();
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFilme(int id)
+        {
+            try
+            {
+                var filme = _context.Filme.FirstOrDefault(x => x.Id == id);
+                if (filme is null)
+                {
+                    return NotFound();
+                }
+
+                _context.Filme.Remove(filme);
+                _context.SaveChanges();
+                return Ok(filme);
             }
             catch (Exception ex)
             {
