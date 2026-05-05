@@ -60,6 +60,29 @@ namespace CP2_DotNet.API.Controllers
             }
         }
 
+        [HttpGet("catalogo/{Genero}")]
+        [SwaggerOperation(
+            Summary = "Procura todos os filmes pelo Gênero",
+            Description = "Retorna todos os filmes cadastrados com o gênero especificado"
+        )]
+        public IActionResult GetAvaliacaoByFilme(string Genero)
+        {
+            try
+            {
+
+                var filmes = _context.Filme.Where(f => f.Genero == Genero).ToList();
+                if (!filmes.Any())
+                {
+                    return NoContent();
+                }
+                return Ok(filmes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         [SwaggerOperation(
             Summary = "Adiciona um novo filme no Banco"

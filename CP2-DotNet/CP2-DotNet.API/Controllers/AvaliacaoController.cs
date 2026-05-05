@@ -59,6 +59,29 @@ namespace CP2_DotNet.API.Controllers
             }
         }
 
+        [HttpGet("filme/{FilmeId}")]
+        [SwaggerOperation(
+            Summary = "Procura todas as avaliações pelo ID do Filme",
+            Description = "Retorna todas as avaliações de um filme específico cadastradas"
+        )]
+        public IActionResult GetAvaliacaoByFilme(int FilmeId)
+        {
+            try
+            {
+
+                var avaliacoes = _context.Avaliacao.Where(a => a.FilmeId == FilmeId).ToList();
+                if (!avaliacoes.Any())
+                {
+                    return NoContent();
+                }
+                return Ok(avaliacoes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("{id}")]
         [SwaggerOperation(
             Summary = "Adiciona uma nova avaliação de filme no Banco"
