@@ -62,7 +62,7 @@ namespace CP2_DotNet.API.Controllers
         [HttpGet("filme/{FilmeId}")]
         [SwaggerOperation(
             Summary = "Procura todas as avaliações pelo ID do Filme",
-            Description = "Retorna todas as avaliações de um filme específico cadastradas"
+            Description = "Retorna todas as avaliações cadastradas de um filme específico"
         )]
         public IActionResult GetAvaliacaoByFilme(int FilmeId)
         {
@@ -82,19 +82,21 @@ namespace CP2_DotNet.API.Controllers
             }
         }
 
-        [HttpPost("{id}")]
+        [HttpPost("{FilmeId}")]
         [SwaggerOperation(
-            Summary = "Adiciona uma nova avaliação de filme no Banco"
+            Summary = "Adiciona uma nova avaliação de filme no Banco",
+            Description = "Através do ID de um Filme (FK), cria uma avaliação nova no banco"
         )]
-        public IActionResult AddAvaliacao(int id, AvaliacaoEntity model)
+        public IActionResult AddAvaliacao(int FilmeId, AvaliacaoEntity model)
         {
             try
             {
-                var filmeExiste = _context.Filme.Where(x => x.Id == id).Count() > 0;
+                var filmeExiste = _context.Filme.FirstOrDefault(x => x.Id == FilmeId) != null;
                 if (!filmeExiste)
                 {
                     return NotFound();
                 }
+                model.FilmeId = FilmeId;
                 _context.Avaliacao.Add(model);
                 _context.SaveChanges();
                 return Ok(model);
@@ -113,7 +115,8 @@ namespace CP2_DotNet.API.Controllers
             try
             {
                 var avaliacao = _context.Avaliacao.FirstOrDefault(x => x.Id == id);
-                if (avaliacao is null)
+                var filmeExiste = _context.Filme.FirstOrDefault(x => x.Id == model.FilmeId) != null;
+                if (avaliacao is null || !filmeExiste)
                 {
                     return NotFound();
                 }
@@ -125,7 +128,7 @@ namespace CP2_DotNet.API.Controllers
 
                 _context.Avaliacao.Update(avaliacao);
                 _context.SaveChanges();
-                return Ok(model);
+                return Ok(avaliacao);
             }
             catch (Exception ex)
             {

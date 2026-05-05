@@ -65,12 +65,35 @@ namespace CP2_DotNet.API.Controllers
             Summary = "Procura todos os filmes pelo Gênero",
             Description = "Retorna todos os filmes cadastrados com o gênero especificado"
         )]
-        public IActionResult GetAvaliacaoByFilme(string Genero)
+        public IActionResult GetFilmeByGenero(string Genero)
         {
             try
             {
 
                 var filmes = _context.Filme.Where(f => f.Genero == Genero).ToList();
+                if (!filmes.Any())
+                {
+                    return NoContent();
+                }
+                return Ok(filmes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("lancamento/{AnoLancamento}")]
+                [SwaggerOperation(
+            Summary = "Procura todos os filmes pelo Ano de Lançamento",
+            Description = "Retorna todos os filmes cadastrados com o ano de lançamento especificado"
+        )]
+        public IActionResult GetFilmeByAnoLancamento(int AnoLancamento)
+        {
+            try
+            {
+
+                var filmes = _context.Filme.Where(f => f.AnoLancamento == AnoLancamento).ToList();
                 if (!filmes.Any())
                 {
                     return NoContent();
@@ -122,7 +145,7 @@ namespace CP2_DotNet.API.Controllers
                 _context.Filme.Update(filme);
                 _context.SaveChanges();
 
-                return Ok(model);
+                return Ok(filme);
             }
             catch (Exception ex)
             {
