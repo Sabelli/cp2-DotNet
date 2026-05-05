@@ -107,6 +107,9 @@ namespace CP2_DotNet.API.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Exclui um filme existente no Banco"
+        )]
         public IActionResult DeleteFilme(int id)
         {
             try

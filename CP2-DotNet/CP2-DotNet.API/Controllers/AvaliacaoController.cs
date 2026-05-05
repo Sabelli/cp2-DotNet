@@ -104,6 +104,9 @@ namespace CP2_DotNet.API.Controllers
             }
         }
         [HttpDelete("{id}")]
+        [SwaggerOperation(
+            Summary = "Exclui uma avaliação existente no Banco"
+        )]
         public IActionResult DeleteAvaliacao(int id)
         {
             try
