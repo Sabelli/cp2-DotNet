@@ -59,14 +59,19 @@ namespace CP2_DotNet.API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("{id}")]
         [SwaggerOperation(
-            Summary = "Adiciona uma nova avaliação no Banco"
+            Summary = "Adiciona uma nova avaliação de filme no Banco"
         )]
-        public IActionResult AddAvaliacao(AvaliacaoEntity model)
+        public IActionResult AddAvaliacao(int id, AvaliacaoEntity model)
         {
             try
             {
+                var filmeExiste = _context.Filme.Where(x => x.Id == id).Count() > 0;
+                if (!filmeExiste)
+                {
+                    return NotFound();
+                }
                 _context.Avaliacao.Add(model);
                 _context.SaveChanges();
                 return Ok(model);
@@ -91,6 +96,7 @@ namespace CP2_DotNet.API.Controllers
                 }
                 avaliacao.Autor = model.Autor;
                 avaliacao.Nota = model.Nota;
+                avaliacao.Comentario = model.Comentario;
                 avaliacao.DataAvaliacao = model.DataAvaliacao;
                 avaliacao.FilmeId = model.FilmeId;
 

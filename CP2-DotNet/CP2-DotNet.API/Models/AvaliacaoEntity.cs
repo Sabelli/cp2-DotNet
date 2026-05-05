@@ -24,13 +24,10 @@ namespace CP2_DotNet.API.Models
         public string? Comentario { get; set; }
 
         [Column("a_dataavaliacao")]
-        public DateTime DataAvaliacao { get; set; } = DateTime.UtcNow;
+        public DateTime DataAvaliacao { get; set; } = DateTime.Now;
 
         [Required(ErrorMessage = "O ID do filme é obrigatório.")]
         [Column("f_id")]
         public int FilmeId { get; set; }
-
-        [ForeignKey("FilmeId")]
-        public FilmeEntity? Filme { get; set; }
     }
 }
