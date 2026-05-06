@@ -219,6 +219,10 @@ cp2-DotNet/
 
 ![Entity Schemas](img-prints/EntitySchemas.png)
 
+### EFMigrationsHistory
+
+![Entity Schemas](img-prints/MigrationOracle.png)
+
 ---
 
 ### Filme
