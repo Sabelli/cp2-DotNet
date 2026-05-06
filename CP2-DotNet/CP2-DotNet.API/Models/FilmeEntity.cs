@@ -24,7 +24,7 @@ namespace CP2_DotNet.API.Models
         [Column("f_genero")]
         public string Genero { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "A duração é obrigatória.")]
         [Range(1, 51420, ErrorMessage = "A duração deve ser entre 1 e 51420 minutos.")]
         [Column("f_duracao")]
         public int DuracaoMin { get; set; }
