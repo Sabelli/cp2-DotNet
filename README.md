@@ -41,6 +41,7 @@ git clone https://github.com/Sabelli/cp2-DotNet
 ```
 
 2. Configure a connection string no `appsettings.json`:
+(Para facilitar os testes e visualização do professor, o projeto já está com credenciais cadastradas)
 ```json
 {
   "ConnectionStrings": {
@@ -75,6 +76,7 @@ https://localhost:{porta}/swagger
 | GET | `/api/filme` | Lista todos os filmes |
 | GET | `/api/filme/{id}` | Busca um filme pelo ID |
 | GET | `/api/filme/catalogo/{genero}` | Busca filmes por gênero |
+| GET | `/api/filme/diretor/{diretor}` | Busca filmes por diretor |
 | GET | `/api/filme/lancamento/{anoLancamento}` | Busca filmes por ano de lançamento |
 | POST | `/api/filme` | Adiciona um novo filme |
 | PUT | `/api/filme/{id}` | Edita um filme existente |
@@ -93,7 +95,7 @@ https://localhost:{porta}/swagger
 
 ---
 
-## 📦 Exemplos de Requisição (JSON)
+## Exemplos de Requisição (JSON)
 
 ### POST `/api/filme` — Criar filme
 
@@ -102,7 +104,8 @@ https://localhost:{porta}/swagger
   "titulo": "Interestelar",
   "anoLancamento": 2014,
   "genero": "Ficção Científica",
-  "duracaoMin": 169
+  "duracaoMin": 169,
+  "diretor": "Christopher Nolan"
 }
 ```
 
@@ -113,7 +116,8 @@ https://localhost:{porta}/swagger
   "titulo": "Interestelar",
   "anoLancamento": 2014,
   "genero": "Ficção Científica",
-  "duracaoMin": 169
+  "duracaoMin": 169,
+  "diretor": "Christopher Nolan"
 }
 ```
 
@@ -140,7 +144,7 @@ https://localhost:{porta}/swagger
 
 ---
 
-## 📊 Status Codes Utilizados
+## Status Codes Utilizados
 
 | Status | Situação |
 |--------|----------|
@@ -151,13 +155,14 @@ https://localhost:{porta}/swagger
 
 ---
 
-## 🗄️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 cp2-DotNet/
 ├── .github/
 ├── .gitignore
 ├── README.md
+├── img-prints/
 └── CP2-DotNet/
     ├── CP2-DotNet.slnx
     └── CP2-DotNet.API/
@@ -178,7 +183,7 @@ cp2-DotNet/
 
 ---
 
-## 🗃️ Modelagem das Entidades
+## Modelagem das Entidades
 
 ### FilmeEntity (`tb_filme`)
 
@@ -189,6 +194,7 @@ cp2-DotNet/
 | AnoLancamento | int | Obrigatório, entre 1888 e 2100 |
 | Genero | string | Obrigatório, 1–50 caracteres |
 | DuracaoMin | int | Obrigatório, entre 1 e 51420 minutos |
+| Diretor | string | Obrigatório, 1–100 caracteres |
 
 ### AvaliacaoEntity (`tb_avaliacao`)
 
@@ -200,3 +206,65 @@ cp2-DotNet/
 | Comentario | string? | Opcional, máximo 1000 caracteres |
 | DataAvaliacao | DateTime | Gerado automaticamente |
 | FilmeId | int | Obrigatório, FK para Filme |
+
+---
+
+## Evidências de Funcionamento
+
+### API Inicializada
+
+![API Start](img-prints/API_Start.png)
+
+### Schemas das Entidades
+
+![Entity Schemas](img-prints/EntitySchemas.png)
+
+---
+
+### Filme
+
+**GET — Lista todos os filmes**
+![Get All Filme](img-prints/GetAllFilme.png)
+
+**GET — Busca filme por ID**
+![Get Filme By Id](img-prints/GetFilmeById.png)
+
+**GET — Busca filmes por gênero**
+![Get Filme By Genero](img-prints/GetFilmeByGenero.png)
+
+**GET — Busca filmes por diretor**
+![Get Filme By Diretor](img-prints/GetFilmeByDiretor.png)
+
+**GET — Busca filmes por ano de lançamento**
+![Get Filme By Ano Lancamento](img-prints/GetFilmeByAnoLancamento.png)
+
+**POST — Criar filme**
+![Post Filme](img-prints/PostFilme.png)
+
+**PUT — Editar filme**
+![Put Filme](img-prints/PutFilme.png)
+
+**DELETE — Excluir filme**
+![Delete Filme](img-prints/DeleteFilme.png)
+
+---
+
+### Avaliação
+
+**GET — Lista todas as avaliações**
+![Get All Avaliacao](img-prints/GetAllAvaliacao.png)
+
+**GET — Busca avaliação por ID**
+![Get Avaliacao By Id](img-prints/GetAvaliacaoById.png)
+
+**GET — Busca avaliações por filme**
+![Get Avaliacao By Filme Id](img-prints/GetAvaliacaoByFilmeId.png)
+
+**POST — Criar avaliação**
+![Post Avaliacao](img-prints/PostAvaliacao.png)
+
+**PUT — Editar avaliação**
+![Put Avaliacao](img-prints/PutAvaliacao.png)
+
+**DELETE — Excluir avaliação**
+![Delete Avaliacao](img-prints/DeleteAvaliacao.png)
