@@ -28,5 +28,10 @@ namespace CP2_DotNet.API.Models
         [Range(1, 51420, ErrorMessage = "A duração deve ser entre 1 e 51420 minutos.")]
         [Column("f_duracao")]
         public int DuracaoMin { get; set; }
+
+        [Required(ErrorMessage = "O diretor é obrigatório.")]
+        [StringLength(100, MinimumLength = 1, ErrorMessage = "O diretor deve ter entre 1 e 100 caracteres.")]
+        [Column("f_diretor")]
+        public string Diretor { get; set; }
     }
 }

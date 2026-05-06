@@ -83,6 +83,28 @@ namespace CP2_DotNet.API.Controllers
             }
         }
 
+        [HttpGet("diretor/{Diretor}")]
+        [SwaggerOperation(
+            Summary = "Procura todos os filmes pelo Diretor",
+            Description = "Retorna todos os filmes cadastrados com o diretor especificado"
+        )]
+        public IActionResult GetFilmeByDiretor(string Diretor)
+        {
+            try
+            {
+                var filmes = _context.Filme.Where(f => f.Diretor.ToLower() == Diretor.ToLower()).ToList();
+                if (!filmes.Any())
+                {
+                    return NoContent();
+                }
+                return Ok(filmes);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("lancamento/{AnoLancamento}")]
                 [SwaggerOperation(
             Summary = "Procura todos os filmes pelo Ano de Lançamento",
@@ -141,6 +163,7 @@ namespace CP2_DotNet.API.Controllers
                 filme.Genero = model.Genero;
                 filme.AnoLancamento = model.AnoLancamento;
                 filme.DuracaoMin = model.DuracaoMin;
+                filme.Diretor = model.Diretor;
 
                 _context.Filme.Update(filme);
                 _context.SaveChanges();
