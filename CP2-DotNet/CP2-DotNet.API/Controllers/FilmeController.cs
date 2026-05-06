@@ -70,7 +70,7 @@ namespace CP2_DotNet.API.Controllers
             try
             {
 
-                var filmes = _context.Filme.Where(f => f.Genero == Genero).ToList();
+                var filmes = _context.Filme.Where(f => f.Genero.ToLower() == Genero.ToLower()).ToList();
                 if (!filmes.Any())
                 {
                     return NoContent();
